@@ -1,0 +1,12 @@
+<div *ngIf="theatreDetails">
+  <h2>{{ movieName }} - {{ theatreName }}</h2>
+  <p>Date: {{ date }}</p>
+  <p>Available seats: {{ availableSeats }}</p>
+  <ul>
+    <li *ngFor="let time of showTimes">{{ time }}</li>
+  </ul>
+</div>
+
+<div *ngIf="!theatreDetails">
+  <p>Loading theatre details...</p>
+</div>
