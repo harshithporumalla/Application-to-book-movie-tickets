@@ -19,7 +19,7 @@ export class MovieTicketService {
     return this.http.post(`${this.baseUrl}?action=bookSeats`, payload);
   }
 
-  getTheatreDetails(movieName: string, theatreName: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}?action=getTheatreDetails&movieName=${movieName}&theatreName=${theatreName}`);
+  getTheatreDetails(): Observable<any> {
+    return this.http.post(`${this.baseUrl}?action=getAllDetails`, {"user_mail_id":"baahubali8@gmail.com"});
   }
 }

@@ -9,19 +9,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MovieTicketService } from './movie-ticket.service';
 import { MovieTicketCheckerService } from './movie-ticket-checker.service';
 import { HttpClientModule } from '@angular/common/http';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     MovieTheatreDetailsComponent,
-    BookMovieTicketComponent
+    BookMovieTicketComponent,
+    MovieDetailsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [MovieTicketService,MovieTicketCheckerService ],
   bootstrap: [AppComponent]

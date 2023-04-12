@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MovieTicketService } from '../movie-ticket.service';
 
@@ -10,6 +10,8 @@ import { MovieTicketService } from '../movie-ticket.service';
 })
 
 export class BookMovieTicketComponent implements OnInit {
+
+
 
   bookingForm: FormGroup = new FormGroup({}); // Add an initializer for the FormGroup property
 

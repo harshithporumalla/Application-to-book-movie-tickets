@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { MovieTicketService } from '../movie-ticket.service';
+import { Theatre } from '../theatre.interface';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-movie-theatre-details',
@@ -8,33 +10,33 @@ import { MovieTicketService } from '../movie-ticket.service';
   styleUrls: ['./movie-theatre-details.component.css']
 })
 export class MovieTheatreDetailsComponent implements OnInit {
-  movieName!: string;
-  theatreName!: string;
-  theatreDetails: { date: string, showTimes: string[], availableSeats: number } | null = null;
-  showTimes: string[] = [];
-  date: string = "";
-  availableSeats!: number;
+  theatres: Theatre[] | undefined;
+  bookingForm!: FormGroup;
+
+    showSuccessMessage: boolean = false; // Initialize the boolean property
+  serverErrorMessage: string = ''; // Initialize the string property
 
   constructor(
-    private route: ActivatedRoute,
-    private movieTicketService: MovieTicketService
+    private formBuilder: FormBuilder,
+    private movieTicketService: MovieTicketService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.movieName = params.get('movieName')!;
-      this.theatreName = params.get('theatreName')!;
-      this.getTheatreDetails(this.movieName, this.theatreName);
+    this.movieTicketService.getTheatreDetails().subscribe(data => {
+      this.theatres = data.theatre;
+    });
+
+    this.bookingForm = this.formBuilder.group({
+      // Define your form controls here
     });
   }
 
-  getTheatreDetails(movieName: string, theatreName: string): void {
-    this.movieTicketService.getTheatreDetails(movieName, theatreName)
-      .subscribe(data => {
-        this.theatreDetails = data;
-        this.showTimes = this.theatreDetails?.showTimes ?? [];
-        this.date = this.theatreDetails?.date ?? '';
-        this.availableSeats = this.theatreDetails?.availableSeats ?? 0;
-      });
+  onBookingFormSubmit() {
+    // Handle form submission here
+  }
+
+  open(content: any) {
+    this.modalService.open(content, { centered: true });
   }
 }
