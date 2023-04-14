@@ -1,0 +1,119 @@
+ <div class="container">
+  <div class="row">
+    <div *ngFor="let theatre of theatres" class="col-md-12 mb-4">
+      <div class="card bg-light">
+        <img [src]="theatre.thumbnail_url" alt="{{theatre.theatre_name}} thumbnail" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">{{theatre.theatre_name}}</h5>
+          <p class="card-text">{{theatre.address}}</p>
+          <p class="card-text">Customer Rating: {{theatre.customer_rating}}</p>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Movie</th>
+                  <th>Time</th>
+                  <th>Book Now</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{theatre.show1_movie}}</td>
+                  <td>{{theatre.show1_time}}</td>
+                  <td><button type="button" class="btn btn-primary" (click)="open(bookingModal, theatre.show1_movie, theatre.show1_time, theatre.theatre_name)">Book Now</button></td>
+                </tr>
+                <tr>
+                  <td>{{theatre.show2_movie}}</td>
+                  <td>{{theatre.show2_time}}</td>
+                  <td><button type="button" class="btn btn-primary" (click)="open(bookingModal, theatre.show2_movie, theatre.show2_time, theatre.theatre_name)">Book Now</button></td>
+                </tr>
+                <tr>
+                  <td>{{theatre.show3_movie}}</td>
+                  <td>{{theatre.show3_time}}</td>
+                  <td><button type="button" class="btn btn-primary" (click)="open(bookingModal, theatre.show3_movie, theatre.show3_time, theatre.theatre_name)">Book Now</button></td>
+                </tr>
+                <tr>
+                  <td>{{theatre.show4_movie}}</td>
+                  <td>{{theatre.show4_time}}</td>
+                  <td><button type="button" class="btn btn-primary" (click)="open(bookingModal, theatre.show4_movie, theatre.show4_time, theatre.theatre_name)">Book Now</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #bookingModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Book Movie Ticket</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="showSuccessMessage" class="alert alert-success">
+      {{successmessage}}
+    </div>
+    <div *ngIf="serverErrorMessage" class="alert alert-danger">
+      {{ serverErrorMessage }}
+    </div>
+    <form [formGroup]="bookingForm" (ngSubmit)="onBookingFormSubmit()">
+      <div class="form-group">
+        <label for="showTime">Show Time:</label>
+        <input type="text" [value]="selectedShowTime" [(ngModel)]="selectedShowTime" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="movieName">Movie Name:</label>
+        <input type="text"  [value]="selectedMovieName" [(ngModel)]="selectedMovieName" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="theatreName">Theatre Name:</label>
+        <input type="text" [value]="selectedTheatreName" [(ngModel)]="selectedTheatreName" class="form-control">
+      </div>
+      <!-- <div class="form-group">
+        <label for="bookedSeats">Booked Seats:</label>
+        <input type="text" formControlName="bookedSeats" class="form-control" value="[2,3,4,8,9]">
+      </div> -->
+
+      <div class="form-group">
+        <label for="selectedSeats">Select Seats:</label>
+        <div class="seats-container">
+          <div *ngFor="let seatNumber of seats; let i = index;" 
+               class="seat" 
+               [id]="'seat-' + i" 
+               [ngClass]="{'booked': isSeatBooked(seatNumber), 'selected': isSelected(seatNumber)}"
+               (click)="selectSeat(seatNumber)">
+            {{ seatNumber }}
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="text" class="form-control" value="22/12/2022">
+      </div>
+      <div class="form-group">
+        <label for="userEmail">Email:</label>
+        <input type="text"  class="form-control" value="test@test.com">
+      </div>
+    </form>
+    
+    <div *ngIf="showSuccessMessage" class="alert alert-success">
+      {{successmessage}}
+    </div>
+    <div *ngIf="serverErrorMessage" class="alert alert-danger">
+      {{ serverErrorMessage }}
+    </div>
+    
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss()">Close</button>
+    <button type="button" class="btn btn-primary" (click)="onBookingFormSubmit()">Book Ticket</button>
+  </div>
+</ng-template>
